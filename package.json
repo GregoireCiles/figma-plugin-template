@@ -1,0 +1,45 @@
+{
+  "name": "figma-plugin-template",
+  "version": "1.0.0",
+  "description": "A template for creating Figma plugins with React for the UI element. It supports Typescript and TailwindCSS out of the box",
+  "author": {
+    "name": "Grégoire CIles",
+    "url": "https://twitter.com/gregoireciles"
+  },
+  "license": "MIT",
+  "scripts": {
+    "test": "npm run tsc && npm run build",
+    "format": "prettier --write .",
+    "tsc": "npm run tsc:main && npm run tsc:ui",
+    "tsc:main": "tsc --noEmit -p src/plugin",
+    "tsc:ui": "tsc --noEmit -p src/app",
+    "tsc:watch": "concurrently -n widget,iframe \"npm run tsc:main -- --watch --preserveWatchOutput\" \"npm run tsc:ui -- --watch --preserveWatchOutput\"",
+    "build": "npm run build:ui && npm run build:main -- --minify",
+    "build:main": "esbuild src/plugin/controller.ts --bundle --outfile=dist/code.js",
+    "build:ui": "npx vite build --minify esbuild --emptyOutDir=false",
+    "build:watch": "concurrently -n widget,iframe \"npm run build:main -- --watch\" \"npm run build:ui -- --watch\"",
+    "dev": "concurrently -n tsc,build,vite 'npm:tsc:watch' 'npm:build:watch' 'vite'"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.64.0",
+    "@ianvs/prettier-plugin-sort-imports": "^3.7.2",
+    "@types/react": "^18.2.6",
+    "@types/react-dom": "^18.2.4",
+    "@vitejs/plugin-react": "^4.0.0",
+    "autoprefixer": "^10.4.14",
+    "concurrently": "^8.0.1",
+    "esbuild": "^0.17.19",
+    "postcss": "^8.4.23",
+    "prettier": "^2.8.8",
+    "sass": "^1.62.1",
+    "tailwindcss": "^3.3.2",
+    "typescript": "^5.0.4",
+    "vite": "^4.3.8",
+    "vite-plugin-singlefile": "^0.13.5",
+    "vite-svg-loader": "^4.0.0"
+  }
+}
